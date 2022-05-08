@@ -13,4 +13,4 @@ app.use(cors());
 app.use(router);
 SocketIO(server)
 
-server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`));
+server.listen(process.env.PORT || 8080, () => console.log(`Server has started.`));

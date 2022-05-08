@@ -1,12 +1,14 @@
-.form {
+.form--chat {
   display: flex;
+  height: 70px;
   border-top: 2px solid #D3D3D3;
 }
 
-.input {
+.form--input {
   border: none;
+  height: 100%;
   border-radius: 0;
-  padding: 5%;
+  padding: 15px;
   width: 80%;
   font-size: 1.2em;
 }
