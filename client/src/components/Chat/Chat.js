@@ -9,7 +9,6 @@ import { convertMessagesList } from "../../utils";
 import Sidebar from "../Sidebar/Sidebar";
 import { useParams } from "react-router-dom";
 const ENDPOINT = 'http://localhost:8080';
-
 let socket;
 
 const Chat = ({location}) => {
@@ -19,6 +18,7 @@ const Chat = ({location}) => {
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
     const { id : room_id} =useParams()
+
     useEffect(() => {
         const { room } = queryString.parse(location.search);
         socket = io(ENDPOINT);
@@ -29,8 +29,14 @@ const Chat = ({location}) => {
         // });
     }, [ENDPOINT, room_id]);
 
+
     useEffect(() => {
-        
+       if(room_id) getListMessages(room_id)
+    }, [room_id]);
+    
+
+    useEffect(() => {
+
         socket.on('NEW_MESSAGE', message => {
             setMessages(pre => [...pre, message]);
         });
@@ -61,6 +67,16 @@ const Chat = ({location}) => {
         }
     }
 
+    const getListMessages = async( id )=>{
+        await fetch(ENDPOINT + '/messages/list/'+id)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(result);
+          },
+          (error) =>console.log(error)
+        )
+    }
     return (
         <div className="outerContainer">
             <Sidebar />
