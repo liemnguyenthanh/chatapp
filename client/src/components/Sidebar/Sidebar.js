@@ -1,18 +1,18 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { Link, ListItemButton } from '@mui/material';
+import TagIcon from '@mui/icons-material/Tag';
+import { Link, ListItemButton, useTheme } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { styled, useTheme } from '@mui/material/styles';
-import * as React from 'react';
-import TagIcon from '@mui/icons-material/Tag';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import ThemeToggle from './ThemeToggle/ThemeToggle';
+
 
 
 const drawerWidth = 240;
@@ -118,11 +118,12 @@ const Sidebar = () => {
                             >
                             <TagIcon />
                         </ListItemIcon>
-                        <ListItemText primary={text.rName} sx={{ opacity: open ? 1 : 0 }} />
+                        <ListItemText primary={text.rName} sx={{ opacity: open ? 1 : 0, color: 'text.primary' }} />
                         </ListItemButton>
                     </Link>
                 ))}
                 </List>
+                <ThemeToggle />
             </Drawer>
         </>   
     )
