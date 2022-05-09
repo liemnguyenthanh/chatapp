@@ -6,6 +6,7 @@ import Input from '../Input/Input';
 
 import './Chat.css';
 import { convertMessagesList } from "../../utils";
+import Sidebar from "../Sidebar/Sidebar";
 
 const ENDPOINT = 'http://localhost:8080';
 
@@ -61,6 +62,7 @@ const Chat = ({ location }) => {
 
     return (
         <div className="outerContainer">
+            <Sidebar />
             <div className="container-chat">
                 <Messages messagesGroup={messagesGroup} name={name} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
