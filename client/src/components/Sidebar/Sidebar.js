@@ -11,6 +11,10 @@ import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+<<<<<<< HEAD
+=======
+import ThemeToggle from './ThemeToggle/ThemeToggle';
+>>>>>>> main
 import { Link } from 'react-router-dom';
 
 
