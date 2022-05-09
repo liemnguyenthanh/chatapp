@@ -29,7 +29,7 @@ function SocketIO (server){
             const { sender , room_id } = message
             if(sender){
                 console.log({message});
-                let new_message = createMessage(message)
+                let new_message = createMessage({message})
                 if(new_message) io.to(room_id).emit('NEW_MESSAGE', new_message);
             }
 
