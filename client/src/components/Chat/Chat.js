@@ -7,34 +7,30 @@ import Input from '../Input/Input';
 import './Chat.css';
 import { convertMessagesList } from "../../utils";
 import Sidebar from "../Sidebar/Sidebar";
-
+import { useParams } from "react-router-dom";
 const ENDPOINT = 'http://localhost:8080';
 
 let socket;
 
-const Chat = ({ location }) => {
+const Chat = ({location}) => {
     const [name, setName] = useState('');
-    const [room, setRoom] = useState('');
     const [users, setUsers] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
-
+    const { id : room_id} =useParams()
     useEffect(() => {
-        const { name, room } = queryString.parse(location.search);
+        const { room } = queryString.parse(location.search);
         socket = io(ENDPOINT);
-
-        setRoom(room);
-        setName(name)
-
-        socket.emit('JOIN_ROOM', { name, room }, (error) => {
-            if (error) {
-                alert(error);
-            }
-        });
-    }, [ENDPOINT, location.search]);
+        // socket.emit('JOIN_ROOM', { name, room_id }, (error) => {
+        //     if (error) {
+        //         alert(error);
+        //     }
+        // });
+    }, [ENDPOINT, room_id]);
 
     useEffect(() => {
+        
         socket.on('NEW_MESSAGE', message => {
             setMessages(pre => [...pre, message]);
         });
