@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import queryString from 'query-string';
 import io from "socket.io-client";
-import Messages  from '../Messages/Messages';
+import Messages from '../Messages/Messages';
 import Input from '../Input/Input';
 
 import './Chat.css';
@@ -11,13 +11,13 @@ import { useParams } from "react-router-dom";
 const ENDPOINT = 'http://localhost:8080';
 let socket;
 
-const Chat = ({location}) => {
+const Chat = ({ location }) => {
     const [name, setName] = useState('');
     const [users, setUsers] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
-    const { id : room_id} =useParams()
+    const { id: room_id } = useParams()
 
     useEffect(() => {
         const { room } = queryString.parse(location.search);
@@ -31,9 +31,9 @@ const Chat = ({location}) => {
 
 
     useEffect(() => {
-       if(room_id) getListMessages(room_id)
+        if (room_id) getListMessages(room_id)
     }, [room_id]);
-    
+
 
     useEffect(() => {
 
@@ -45,37 +45,38 @@ const Chat = ({location}) => {
             setUsers(users);
         });
     }, []);
-
+console.log({messages});
 
     useEffect(() => {
-        if(messages){
+        if (messages) {
             let new_list = convertMessagesList(messages)
             setMessagesGroup(new_list)
         }
     }, [messages])
-    
+
     const sendMessage = (event) => {
         event.preventDefault();
 
         if (message) {
             let new_message = {
-                sender : '6278c34915a8e3b860b30f38',
-                room_id : '1',
-                message : message
+                sender: '6278c34915a8e3b860b30f38',
+                room_id: '1',
+                message: message
             }
             socket.emit('SEND_MESSAGE', new_message, () => setMessage(''));
         }
     }
 
-    const getListMessages = async( id )=>{
-        await fetch(ENDPOINT + '/messages/list/'+id)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            console.log(result);
-          },
-          (error) =>console.log(error)
-        )
+    const getListMessages = async (id) => {
+        await fetch(ENDPOINT + '/messages/list/' + id)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    let new_list = result.detail
+                    setMessages(new_list);
+                },
+                (error) => console.log(error)
+            )
     }
     return (
         <div className="outerContainer">

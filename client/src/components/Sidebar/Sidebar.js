@@ -1,11 +1,7 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TagIcon from '@mui/icons-material/Tag';
-<<<<<<< HEAD
-import { Link, ListItemButton, useTheme } from '@mui/material';
-=======
 import { Link as LinkMui, ListItemButton } from '@mui/material';
->>>>>>> main
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -15,12 +11,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-<<<<<<< HEAD
 import ThemeToggle from './ThemeToggle/ThemeToggle';
-
-=======
 import { Link } from 'react-router-dom';
->>>>>>> main
 
 
 const drawerWidth = 240;
@@ -107,31 +99,6 @@ const Sidebar = () => {
                 </DrawerHeader>
                 <Divider />
                 <List>
-<<<<<<< HEAD
-                {listRoom.map((text, index) => (
-                    <Link href={`/${text.id}`} underline="none" color={'black'}>
-                        <ListItemButton
-                        key={text}
-                        sx={{
-                            minHeight: 48,
-                            justifyContent: open ? 'initial' : 'center',
-                            px: 2.5,
-                        }}
-                        >
-                        <ListItemIcon
-                            sx={{
-                                minWidth: 0,
-                                mr: open ? 3 : 'auto',
-                                justifyContent: 'center',
-                            }}
-                            >
-                            <TagIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={text.rName} sx={{ opacity: open ? 1 : 0, color: 'text.primary' }} />
-                        </ListItemButton>
-                    </Link>
-                ))}
-=======
                     {listRoom.map((text, index) => (
                         <Link to={`/${text.id}`} >
                             <LinkMui underline="none" color={'black'}>
@@ -157,7 +124,6 @@ const Sidebar = () => {
                             </LinkMui>
                         </Link>
                     ))}
->>>>>>> main
                 </List>
                 <ThemeToggle />
             </Drawer>
