@@ -100,7 +100,7 @@ const Sidebar = () => {
                 <Divider />
                 <List>
                 {listRoom.map((text, index) => (
-                    <Link href={`&room=${text.id}`} underline="none" color={'black'}>
+                    <Link href={`/${text.id}`} underline="none" color={'black'}>
                         <ListItemButton
                         key={text}
                         sx={{

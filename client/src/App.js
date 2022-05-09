@@ -11,7 +11,7 @@ const App = () => {
     <Router>
       <CssBaseline />
       <Route path="/" exact component={Join} />
-      <Route path="/chat" component={Chat} />
+      <Route path="/:id" component={Chat} />
     </Router>
   );
 }

@@ -56,7 +56,12 @@ const Chat = ({ location }) => {
         event.preventDefault();
 
         if (message) {
-            socket.emit('SEND_MESSAGE', message, () => setMessage(''));
+            let new_message = {
+                sender : '6278c34915a8e3b860b30f38',
+                room_id : '1',
+                message : message
+            }
+            socket.emit('SEND_MESSAGE', new_message, () => setMessage(''));
         }
     }
 

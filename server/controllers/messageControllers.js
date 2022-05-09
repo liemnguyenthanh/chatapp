@@ -2,7 +2,7 @@
 import Message from '../models/messagesModel.js';
 
 export const createMessage = async (messages) => {
-    console.log("New mess :", message);
+    console.log("messages",messages);
     const { room_id, message, sender } = messages;
     if (!room_id || !message || !sender) {
         return null;
