@@ -1,5 +1,6 @@
 import socketio from 'socket.io'
 import { createMessage } from '../controllers/messageControllers.js';
+import Message from '../models/messagesModel.js';
 function SocketIO (server){
     const io = socketio(server);
     io.on('connect', (socket) => {
@@ -28,9 +29,8 @@ function SocketIO (server){
         socket.on('SEND_MESSAGE', (message, callback) => {
             const { sender , room_id } = message
             if(sender){
-                console.log({message});
-                let new_message = createMessage({message})
-                if(new_message) io.to(room_id).emit('NEW_MESSAGE', new_message);
+                let new_message =  new Message(message);
+                socket.emit('NEW_MESSAGE', new_message);
             }
 
             callback();
