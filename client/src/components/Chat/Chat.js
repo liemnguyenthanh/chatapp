@@ -7,7 +7,9 @@ import Input from '../Input/Input';
 import './Chat.css';
 import { convertMessagesList } from "../../utils";
 import Sidebar from "../Sidebar/Sidebar";
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom'
+
+
 const ENDPOINT = 'http://localhost:8080';
 let socket;
 
@@ -17,7 +19,7 @@ const Chat = ({location}) => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
-    const { id : room_id} =useParams()
+    const { id : room_id} = useParams()
 
     useEffect(() => {
         const { room } = queryString.parse(location.search);
