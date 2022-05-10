@@ -3,11 +3,11 @@ import queryString from 'query-string';
 import io from "socket.io-client";
 import Messages from '../Messages/Messages';
 import Input from '../Input/Input';
-
 import './Chat.css';
 import { convertMessagesList } from "../../utils";
 import Sidebar from "../Sidebar/Sidebar";
 import { useParams } from 'react-router-dom'
+import fetchApi from "../../api";
 
 
 const ENDPOINT = 'http://localhost:8080';
@@ -19,16 +19,9 @@ const Chat = ({ location }) => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
-    const { id: room_id } = useParams()
-
+    const { user_id ,room_id} = queryString.parse(location.search);
     useEffect(() => {
-        const { room } = queryString.parse(location.search);
         socket = io(ENDPOINT);
-        // socket.emit('JOIN_ROOM', { name, room_id }, (error) => {
-        //     if (error) {
-        //         alert(error);
-        //     }
-        // });
     }, [ENDPOINT, room_id]);
 
 
@@ -47,7 +40,6 @@ const Chat = ({ location }) => {
             setUsers(users);
         });
     }, []);
-console.log({messages});
 
     useEffect(() => {
         if (messages) {
@@ -61,8 +53,8 @@ console.log({messages});
 
         if (message) {
             let new_message = {
-                sender: '6278c34915a8e3b860b30f38',
-                room_id: '1',
+                sender: user_id,
+                room_id: room_id,
                 message: message
             }
             socket.emit('SEND_MESSAGE', new_message, () => setMessage(''));
@@ -70,21 +62,14 @@ console.log({messages});
     }
 
     const getListMessages = async (id) => {
-        await fetch(ENDPOINT + '/messages/list/' + id)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    let new_list = result.detail
-                    setMessages(new_list);
-                },
-                (error) => console.log(error)
-            )
+        let new_list = await fetchApi('messages/list/' + id)
+        if (new_list && new_list.detail) setMessages(new_list.detail);
     }
     return (
         <div className="outerContainer">
-            <Sidebar />
+            <Sidebar user_id={user_id} />
             <div className="container-chat">
-                <Messages messagesGroup={messagesGroup} name={name} />
+                <Messages messagesGroup={messagesGroup} mySelfId={user_id} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
             </div>
         </div>

@@ -17,17 +17,14 @@ const RenderAvatar = ( {url} ) =>{
         </div>
     )
 }
-const Messages = ({ messagesGroup, name }) => {
-    console.log({messagesGroup});
+const Messages = ({ messagesGroup, mySelfId }) => {
 
     return (
         <ScrollToBottom className="messages px-3">
             {messagesGroup.length > 0  && messagesGroup.map((item, i) =>{
                 let isSentByCurrentUser = false;
-
-                const trimmedName = name.trim().toLowerCase();
-            
-                if (item.image === trimmedName) {
+                
+                if (item.info === mySelfId) {
                     isSentByCurrentUser = true;
                 }
                 return (
@@ -36,14 +33,14 @@ const Messages = ({ messagesGroup, name }) => {
                         >
                         {
                             !isSentByCurrentUser &&
-                            <RenderAvatar url={item.image}/>
+                            <RenderAvatar url={item.info}/>
                         }
                         
                         <div className={`d-flex flex-column ${isSentByCurrentUser ? "flex-end w-100" :'w-100-40'}`} >
                         {
                             item.messages.length && item.messages.map(mes => (
                                 <div key={mes.message_id} className={`d-flex ${isSentByCurrentUser ? "justify-content-end" :''}`} >
-                                    <Message message={mes} name={name} isSentByCurrentUser={isSentByCurrentUser}/>
+                                    <Message message={mes}  isSentByCurrentUser={isSentByCurrentUser}/>
                                 </div>
                             ))
                         }

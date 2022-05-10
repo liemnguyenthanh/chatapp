@@ -2,15 +2,15 @@ import { nanoid } from "nanoid"
 
 export const convertMessagesList = (list) => {
     let new_list = [],
-        user_group = { key : null ,image: null, messages: [] }
+        user_group = { key : null ,info: null, messages: [] }
     list.map((item, index) => {
-        if (user_group.image === item.sender) {
+        if (user_group.info === item.sender) {
             user_group.messages.push(item)
         } else {
-            user_group.image && new_list.push(user_group)
-            user_group = {  key : nanoid() , image: item.sender, messages: [item] }
+            user_group.info && new_list.push(user_group)
+            user_group = {  key : nanoid() , info: item.sender, messages: [item] }
         }
-        if (index === list.length - 1 && user_group.image) new_list.push(user_group)
+        if (index === list.length - 1 && user_group.info) new_list.push(user_group)
     })
     return new_list
 }

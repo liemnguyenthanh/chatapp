@@ -12,7 +12,8 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import ThemeToggle from './ThemeToggle/ThemeToggle';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { queryString } from 'query-string';
 
 
 const drawerWidth = 240;
@@ -80,11 +81,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-const Sidebar = () => {
+const Sidebar = ({user_id}) => {
     const [open, setOpen] = React.useState(true);
     const handleDrawer = () => {
         setOpen(prev => !prev);
     };
+    const location = useLocation()
+
     return (
         <>
             <Drawer variant="permanent" open={open}>
@@ -99,7 +102,7 @@ const Sidebar = () => {
                 <Divider />
                 <List>
                     {listRoom.map((text, index) => (
-                        <Link to={`/${text.id}`}  key={text}>
+                        <Link to={`/dashboard?user_id=${user_id}&room_id=${text.id}`}  key={text}>
                             <LinkMui underline="none" color={'black'}>
                                 <ListItemButton
                                     sx={{

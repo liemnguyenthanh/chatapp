@@ -10,7 +10,6 @@ export const createMessage = async (messages) => {
 export const getMessagesListRoom = async (req, res) => {
     try {
       const { room_id } = req.params;
-      console.log('room_id',room_id);
       if (!room_id) {
         return res .status(404)
           .json({ success: false, message: "Error room_id!!" });
