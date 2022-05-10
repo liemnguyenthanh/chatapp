@@ -24,11 +24,20 @@ const Chat = ({ location }) => {
     const { user_id ,room_id} = queryString.parse(location.search);
     useEffect(() => {
         socket = io(ENDPOINT);
+        socket.emit('JOIN_CHAT', { user_id }, (error) => {
+            if (error) {
+                alert(error);
+            }
+        });
+
     }, [ENDPOINT, room_id]);
 
 
     useEffect(() => {
-        if (room_id) getListMessages(room_id)
+        if (room_id) {
+            socket.emit('JOIN_ROOM',{room_id})
+            getListMessages(room_id)
+        }
     }, [room_id]);
 
 
