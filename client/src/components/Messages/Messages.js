@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React from 'react';
 
@@ -31,25 +32,40 @@ const Messages = ({ messagesGroup, name }) => {
                     isSentByCurrentUser = true;
                 }
                 return (
-                    <div className='d-flex flex-row w-100'
+                    <Box 
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            width: '100%',
+                            bgcolor: 'background.paper',
+                        }}
                         key={item.key}
                         >
                         {
                             !isSentByCurrentUser &&
                             <RenderAvatar url={item.image}/>
-                        }
-                        
-                        <div className={`d-flex flex-column ${isSentByCurrentUser ? "flex-end w-100" :'w-100-40'}`} >
+                        }  
+                        <Box 
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                ...(isSentByCurrentUser ? { justifyContent: 'flex-end', width: '100%'} : { width: 'calc(100% - 100px)'})
+                            }}
+                        >
                         {
                             item.messages.length && item.messages.map(mes => (
-                                <div key={mes.message_id} className={`d-flex ${isSentByCurrentUser ? "justify-content-end" :''}`} >
+                                <Box key={mes.message_id} className={`d-flex ${isSentByCurrentUser ? "justify-content-end" :''}`} 
+                                    sx={{
+                                        display: 'flex',
+                                        ...(isSentByCurrentUser && { justifyContent: 'flex-end'})
+                                    }}
+                                >
                                     <Message message={mes} name={name} isSentByCurrentUser={isSentByCurrentUser}/>
-                                </div>
+                                </Box>
                             ))
                         }
-                        </div>
-
-                    </div>
+                        </Box>
+                    </Box>
                 )
             }
                 

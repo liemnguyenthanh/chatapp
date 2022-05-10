@@ -42,6 +42,7 @@ const openedMixin = (theme) => ({
         duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: 'hidden',
+    bg:'background.paper',
 });
 
 const closedMixin = (theme) => ({
@@ -51,6 +52,7 @@ const closedMixin = (theme) => ({
     }),
     overflowX: 'hidden',
     width: `calc(${theme.spacing(7)} + 1px)`,
+    bg:'background.paper',
 });
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -59,6 +61,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
+    bg:'background.paper',
     justifyContent: 'flex-end',
 }));
 

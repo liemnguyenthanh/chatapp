@@ -26,12 +26,25 @@ const App = () => {
       mode,
       ...(mode === 'dark' ? 
       {
+        text: {
+          secondary: '#95979f',
+        },
         background: {
-          main: 'rgba(255, 255, 255, 0.12)',
-          default: 'rgba(255, 255, 255, 0.12) ',
+          paper: '#2c2f33',
+          default: '#23272a',
         }
-      } : null
-      )
+      } : {
+        background: {
+          default: '#fafafa',
+        }
+      }
+      ),
+      primary: {
+        main: '#404eed',
+      },
+      secondary: {
+        main: '#99AAB5',
+      },
     }
   });
 
@@ -42,18 +55,15 @@ const App = () => {
   );
 
   return (
-    <>
-    <CssBaseline enableColorScheme />
     <ColorModeContext.Provider value={colorMode}>
-                {/* <CssBaseline /> */}
       <ThemeProvider theme={theme}>
+        <CssBaseline enableColorScheme />
         <Router>
           <Route path="/" exact component={Join} />
           <Route path="/:id" component={Chat} />
         </Router>
       </ThemeProvider>
     </ColorModeContext.Provider>
-    </>
   );
 }
 

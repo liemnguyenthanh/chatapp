@@ -8,6 +8,7 @@ import './Chat.css';
 import { convertMessagesList } from "../../utils";
 import Sidebar from "../Sidebar/Sidebar";
 import { useParams } from 'react-router-dom'
+import { Box } from "@mui/material";
 
 
 const ENDPOINT = 'http://localhost:8080';
@@ -81,13 +82,13 @@ console.log({messages});
             )
     }
     return (
-        <div className="outerContainer">
+        <Box className="outerContainer" sx={{bgcolor: 'background.default'}}>
             <Sidebar />
-            <div className="container-chat">
+            <Box sx={{bgcolor: 'background.paper'}} className="container-chat">
                 <Messages messagesGroup={messagesGroup} name={name} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }
 
