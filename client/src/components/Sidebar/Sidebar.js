@@ -1,7 +1,7 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TagIcon from '@mui/icons-material/Tag';
-import { Link as LinkMui, ListItemButton } from '@mui/material';
+import { Box, Link as LinkMui, ListItemButton } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -43,7 +43,6 @@ const openedMixin = (theme) => ({
         duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: 'hidden',
-    bg:'background.paper',
 });
 
 const closedMixin = (theme) => ({
@@ -53,7 +52,6 @@ const closedMixin = (theme) => ({
     }),
     overflowX: 'hidden',
     width: `calc(${theme.spacing(7)} + 1px)`,
-    bg:'background.paper',
 });
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -62,8 +60,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    bg:'background.paper',
+    zIndex: 200,
+    border: 1,
+    boxShadow: 1,
     justifyContent: 'flex-end',
+    position: 'absolute',
+    width: '100%',
+    top: 0,
+    left: 0,
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -72,7 +76,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         flexShrink: 0,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
-        marginRight: '20px',
         ...(open && {
             ...openedMixin(theme),
             '& .MuiDrawer-paper': openedMixin(theme),
@@ -81,6 +84,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             ...closedMixin(theme),
             '& .MuiDrawer-paper': closedMixin(theme),
         }),
+        position: 'relative',
+        overflow: 'hidden'
     }),
 );
 
@@ -102,33 +107,35 @@ const Sidebar = ({user_id}) => {
                         {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
-                <List>
-                    {listRoom.map((text, index) => (
-                        <Link to={`/dashboard?user_id=${user_id}&room_id=${text.id}`}  key={text}>
-                            <LinkMui underline="none" color={'black'}>
-                                <ListItemButton
-                                    sx={{
-                                        minHeight: 48,
-                                        justifyContent: open ? 'initial' : 'center',
-                                        px: 2.5,
-                                    }}
-                                >
-                                    <ListItemIcon
+                <Divider sx={{mt: '64px'}}/>
+                <Box sx={{height: '100%', ...(open ? {overflowY: 'auto'} : {overflow: 'hidden'}) }}>
+                    <List>
+                        {listRoom.map((text, index) => (
+                            <Link to={`/dashboard?user_id=${user_id}&room_id=${text.id}`} key={text}>
+                                <LinkMui underline="none" color={'black'}>
+                                    <ListItemButton
                                         sx={{
-                                            minWidth: 0,
-                                            mr: open ? 3 : 'auto',
-                                            justifyContent: 'center',
+                                            minHeight: 48,
+                                            justifyContent: open ? 'initial' : 'center',
+                                            px: 2.5,
                                         }}
                                     >
-                                        <TagIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={text.rName} sx={{ opacity: open ? 1 : 0, color: 'text.primary', }} />
-                                </ListItemButton>
-                            </LinkMui>
-                        </Link>
-                    ))}
-                </List>
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: open ? 3 : 'auto',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            <TagIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary={text.rName} sx={{ opacity: open ? 1 : 0, color: 'text.primary', }} />
+                                    </ListItemButton>
+                                </LinkMui>
+                            </Link>
+                        ))}
+                    </List>
+                </Box>
                 <ThemeToggle />
             </Drawer>
         </>

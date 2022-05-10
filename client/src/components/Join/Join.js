@@ -28,13 +28,8 @@ export default function SignIn() {
                     </Alert>
                 }
                 <h1 className="heading">Join</h1>
-                <div>
-                    <input placeholder="Full Name" className="joinInput" type="text" onChange={(event) => setFullname(event.target.value)} />
-                </div>
-                <div>
-                    <input placeholder="Username" className="joinInput mt-20" type="text" onChange={(event) => setUsername(event.target.value)} />
-                </div>
-
+                <input placeholder="Full Name" className="joinInput" type="text" onChange={(event) => setFullname(event.target.value)} />
+                <input placeholder="Username" className="joinInput mt-20" type="text" onChange={(event) => setUsername(event.target.value)} />
                 <button className={'button mt-20'} onClick={handleSubmit}>Sign In</button>
             </div>
         </div>

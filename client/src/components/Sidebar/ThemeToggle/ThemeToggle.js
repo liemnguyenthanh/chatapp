@@ -21,6 +21,7 @@ const ThemeToggle = () => {
                 '&:hover': {
                     backgroundColor: 'action.hover',
                   },
+                mt: 'auto',
             }}
             onClick={colorMode.toggleColorMode} 
         >

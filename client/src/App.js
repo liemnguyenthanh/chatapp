@@ -11,7 +11,6 @@ export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 const App = () => {
   const [mode, setMode] = useState('light');
-  
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
@@ -32,10 +31,12 @@ const App = () => {
         background: {
           paper: '#2c2f33',
           default: '#23272a',
+          container: '#3E4042',
         }
       } : {
         background: {
           default: '#fafafa',
+          container: '#E4E6EB',
         }
       }
       ),
@@ -45,10 +46,29 @@ const App = () => {
       secondary: {
         main: '#99AAB5',
       },
-    }
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            scrollbarColor: "#6b6b6b #2b2b2b",
+            "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+              // backgroundColor: "#2b2b2b",
+              width: '4px',
+              height: '4px',  
+            },
+            "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+              borderRadius: 8,
+              backgroundColor: "transparent",
+              minHeight: 24,
+            },
+          },
+        },
+      },
+    },
   });
 
-  const theme = useMemo(
+  const CustomTheme = useMemo(
     () =>
     createTheme(getDesignTokens(mode)),
     [mode],
@@ -56,7 +76,7 @@ const App = () => {
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={CustomTheme}>
         <CssBaseline enableColorScheme />
         <Router>
           <Route path="/" exact component={Join} />

@@ -11,6 +11,7 @@ import { Box } from "@mui/material";
 import fetchApi from "../../api";
 
 
+
 const ENDPOINT = 'http://localhost:8080';
 let socket;
 
@@ -68,8 +69,8 @@ const Chat = ({ location }) => {
     }
     return (
         <Box className="outerContainer" sx={{bgcolor: 'background.default'}}>
-            <Sidebar />
-            <Box sx={{bgcolor: 'background.paper'}} className="container-chat">
+            <Sidebar user_id={user_id} />
+            <Box sx={{bgcolor: 'background.paper', boxShadow: 1, mx: 3}} className="container-chat">
                 <Messages messagesGroup={messagesGroup} mySelfId={user_id} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
             </Box>

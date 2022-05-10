@@ -1,7 +1,7 @@
 .form--chat {
   display: flex;
   height: 70px;
-  border-top: 2px solid #D3D3D3;
+  border-top: 1px solid #D3D3D3;
 }
 
 .form--input {

@@ -34,13 +34,12 @@ const Messages = ({ messagesGroup, mySelfId }) => {
                             display: 'flex',
                             flexDirection: 'row',
                             width: '100%',
-                            bgcolor: 'background.paper',
                         }}
                         key={item.key}
                         >
                         {
                             !isSentByCurrentUser &&
-                            <RenderAvatar url={item.image}/>
+                            <RenderAvatar url={item.info}/>
                         }  
                         <Box 
                             sx={{
@@ -54,7 +53,7 @@ const Messages = ({ messagesGroup, mySelfId }) => {
                                 <Box key={mes.message_id} className={`d-flex ${isSentByCurrentUser ? "justify-content-end" :''}`} 
                                     sx={{
                                         display: 'flex',
-                                        ...(isSentByCurrentUser && { justifyContent: 'flex-end'})
+                                        ...(isSentByCurrentUser && { justifyContent: 'flex-end'}),
                                     }}
                                 >
                                     <Message message={mes} isSentByCurrentUser={isSentByCurrentUser}/>
