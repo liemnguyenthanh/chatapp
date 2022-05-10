@@ -60,7 +60,7 @@ const App = () => {
         <CssBaseline enableColorScheme />
         <Router>
           <Route path="/" exact component={Join} />
-          <Route path="/:id" component={Chat} />
+          <Route path="/dashboard" component={Chat} />
         </Router>
       </ThemeProvider>
     </ColorModeContext.Provider>

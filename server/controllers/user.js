@@ -13,25 +13,19 @@ import User from '../models/usersModel.js';
 // };
 
 export const loginUser = async (req, res) => {
-  try {
-    const test = {
-      full_name : 'Liem Nguyen',
-      username : 'liemnguyen',
-      phone_number : '0326347612'
-    }
-    const { full_name, phone_number, username} = test;
-    if (!full_name || !username) {
-      res
-        .status(404)
-        .json({ success: false, message: "Vui lòng nhập đầy đủ họ tên!!" });
-    } else {
-      const new_user = new User({ full_name, phone_number, username});
+    try {
+        const { full_name, username } = req.body;
+        if (!full_name || !username) {
+            return res.status(404)
+               .json({ success: false, message: "Vui lòng nhập đầy đủ họ tên!!" });
+        } 
+        const is_exist =await User.findOne({ username : username })
+        if(is_exist) return res.status(201).json({ success: false, error: "Username đã tồn tại!" });
 
-      await new_user.save();
-
-      res.status(201).json({ success: true, detail: new_user });
+        const new_user = new User({ full_name, username });
+        await new_user.save();
+        return res.status(201).json({ success: true, detail: new_user });
+    } catch (error) {
+        res.status(409).json({ success: false, message: error.message });
     }
-  } catch (error) {
-    res.status(409).json({ success: false, message: error.message });
-  }
 };

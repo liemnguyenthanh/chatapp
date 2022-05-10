@@ -1,26 +1,42 @@
+import { Alert, AlertTitle } from '@mui/material';
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import fetchApi from '../../api';
 
 import './Join.css';
 
 export default function SignIn() {
-  const [name, setName] = useState('');
-  const [room, setRoom] = useState('');
+    const [fullname, setFullname] = useState('');
+    const [username, setUsername] = useState('');
+    const [error, setError] = useState(null);
+    const history = useHistory()
+    const handleSubmit = async () => {
+        let res = await fetchApi('users/login', 'post', { full_name: fullname, username })
+        if(res && res.error) setError(res.error)
+        if(res && res.detail && res.detail._id) {
+            history.push(`/dashboard?user_id=${res.detail._id}`)
+        }
+    }
+    return (
+        <div className="joinOuterContainer">
+            <div className="joinInnerContainer">
+                {
+                    error &&
+                    <Alert severity="error">
+                        <AlertTitle sx={{textAlign : 'left'}}>Error</AlertTitle>
+                        {error}
+                    </Alert>
+                }
+                <h1 className="heading">Join</h1>
+                <div>
+                    <input placeholder="Full Name" className="joinInput" type="text" onChange={(event) => setFullname(event.target.value)} />
+                </div>
+                <div>
+                    <input placeholder="Username" className="joinInput mt-20" type="text" onChange={(event) => setUsername(event.target.value)} />
+                </div>
 
-  return (
-    <div className="joinOuterContainer">
-      <div className="joinInnerContainer">
-        <h1 className="heading">Join</h1>
-        <div>
-          <input placeholder="Name" className="joinInput" type="text" onChange={(event) => setName(event.target.value)} />
+                <button className={'button mt-20'} onClick={handleSubmit}>Sign In</button>
+            </div>
         </div>
-        <div>
-          <input placeholder="Room" className="joinInput mt-20" type="text" onChange={(event) => setRoom(event.target.value)} />
-        </div>
-        <Link onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}>
-          <button className={'button mt-20'} type="submit">Sign In</button>
-        </Link>
-      </div>
-    </div>
-  );
+    );
 }
