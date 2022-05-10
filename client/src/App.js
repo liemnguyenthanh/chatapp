@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 
 import Chat from './components/Chat/Chat';
 import Join from './components/Join/Join';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, useTheme, createTheme } from '@mui/material/styles';
-import { amber, deepOrange, grey } from '@mui/material/colors';
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-export const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
-
+export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 const App = () => {
-  const [mode, setMode] = React.useState('light');
+  const [mode, setMode] = useState('light');
   
-  const colorMode = React.useMemo(
+  const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
@@ -37,13 +35,15 @@ const App = () => {
     }
   });
 
-  const theme = React.useMemo(
+  const theme = useMemo(
     () =>
     createTheme(getDesignTokens(mode)),
     [mode],
   );
 
   return (
+    <>
+    <CssBaseline enableColorScheme />
     <ColorModeContext.Provider value={colorMode}>
                 {/* <CssBaseline /> */}
       <ThemeProvider theme={theme}>
@@ -53,6 +53,7 @@ const App = () => {
         </Router>
       </ThemeProvider>
     </ColorModeContext.Provider>
+    </>
   );
 }
 

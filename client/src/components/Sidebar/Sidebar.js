@@ -11,10 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-<<<<<<< HEAD
-=======
 import ThemeToggle from './ThemeToggle/ThemeToggle';
->>>>>>> main
 import { Link } from 'react-router-dom';
 
 
@@ -85,7 +82,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const Sidebar = () => {
     const [open, setOpen] = React.useState(true);
-
     const handleDrawer = () => {
         setOpen(prev => !prev);
     };
@@ -103,10 +99,9 @@ const Sidebar = () => {
                 <Divider />
                 <List>
                     {listRoom.map((text, index) => (
-                        <Link to={`/${text.id}`} >
+                        <Link to={`/${text.id}`}  key={text}>
                             <LinkMui underline="none" color={'black'}>
                                 <ListItemButton
-                                    key={text}
                                     sx={{
                                         minHeight: 48,
                                         justifyContent: open ? 'initial' : 'center',
@@ -122,7 +117,7 @@ const Sidebar = () => {
                                     >
                                         <TagIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={text.rName} sx={{ opacity: open ? 1 : 0 }} />
+                                    <ListItemText primary={text.rName} sx={{ opacity: open ? 1 : 0, color: 'text.primary', }} />
                                 </ListItemButton>
                             </LinkMui>
                         </Link>
