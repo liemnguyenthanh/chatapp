@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
-
+import './styles/global.css';
 import Chat from './components/Chat/Chat';
 import Join from './components/Join/Join';
 import CssBaseline from '@mui/material/CssBaseline';
