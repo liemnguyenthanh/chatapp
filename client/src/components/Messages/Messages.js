@@ -40,7 +40,7 @@ const Messages = ({ messagesGroup, mySelfId }) => {
                         >
                         {
                             !isSentByCurrentUser &&
-                            <RenderAvatar url={item.image}/>
+                            <RenderAvatar url={item.info}/>
                         }  
                         <Box 
                             sx={{

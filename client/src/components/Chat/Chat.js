@@ -23,11 +23,20 @@ const Chat = ({ location }) => {
     const { user_id ,room_id} = queryString.parse(location.search);
     useEffect(() => {
         socket = io(ENDPOINT);
+        socket.emit('JOIN_CHAT', { user_id }, (error) => {
+            if (error) {
+                alert(error);
+            }
+        });
+
     }, [ENDPOINT, room_id]);
 
 
     useEffect(() => {
-        if (room_id) getListMessages(room_id)
+        if (room_id) {
+            socket.emit('JOIN_ROOM',{room_id})
+            getListMessages(room_id)
+        }
     }, [room_id]);
 
 
@@ -68,7 +77,7 @@ const Chat = ({ location }) => {
     }
     return (
         <Box className="outerContainer" sx={{bgcolor: 'background.default'}}>
-            <Sidebar />
+            <Sidebar user_id={user_id}/>
             <Box sx={{bgcolor: 'background.paper'}} className="container-chat">
                 <Messages messagesGroup={messagesGroup} mySelfId={user_id} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
