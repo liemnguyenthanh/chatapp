@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import queryString from 'query-string';
-import io from "socket.io-client";
-import Messages from '../Messages/Messages';
-import Input from '../Input/Input';
-import './Chat.css';
-import { convertMessagesList } from "../../utils";
-import Sidebar from "../Sidebar/Sidebar";
-import { useParams } from 'react-router-dom'
 import { Box } from "@mui/material";
+import queryString from 'query-string';
+import React, { useEffect, useState } from "react";
+import io from "socket.io-client";
 import fetchApi from "../../api";
+import { convertMessagesList } from "../../utils";
+import Input from '../Input/Input';
+import Messages from '../Messages/Messages';
+import Sidebar from "../Sidebar/Sidebar";
+import './Chat.css';
 
 
 

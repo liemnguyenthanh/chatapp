@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
-import './styles/global.css';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { createContext, useMemo, useState } from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Chat from './components/Chat/Chat';
 import Join from './components/Join/Join';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, useTheme, createTheme } from '@mui/material/styles';
+import './styles/global.css';
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -53,7 +53,6 @@ const App = () => {
           body: {
             scrollbarColor: "#6b6b6b #2b2b2b",
             "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-              // backgroundColor: "#2b2b2b",
               width: '4px',
               height: '4px',  
             },

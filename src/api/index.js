@@ -6,7 +6,7 @@ export default async function fetchApi(path,method,body) {
         method : 'GET',
         headers: { 'Content-Type': 'application/json' },
     }
-    if(method == 'post'){
+    if(method === 'post'){
         options.method = 'POST'
         options.body = JSON.stringify(body)
     }

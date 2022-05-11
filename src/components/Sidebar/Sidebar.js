@@ -11,8 +11,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle/ThemeToggle';
-import { Link, useLocation } from 'react-router-dom';
 
 
 const drawerWidth = 240;
