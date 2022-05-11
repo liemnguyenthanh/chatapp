@@ -12,7 +12,7 @@ import fetchApi from "../../api";
 
 
 
-const ENDPOINT = 'http://localhost:8080';
+const ENDPOINT = 'https://chatapptma.herokuapp.com';
 let socket;
 
 const Chat = ({ location }) => {

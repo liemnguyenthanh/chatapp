@@ -1,4 +1,4 @@
-const ENDPOINT = 'http://localhost:8080/';
+const ENDPOINT = 'https://chatapptma.herokuapp.com/';
 
 export default async function fetchApi(path,method,body) {
     let result 
