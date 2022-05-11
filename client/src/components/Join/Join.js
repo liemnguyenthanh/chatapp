@@ -1,37 +1,166 @@
-import { Alert, AlertTitle } from '@mui/material';
-import React, { useState } from 'react';
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  Paper,
+  styled,
+  TextField,
+} from "@mui/material";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import fetchApi from '../../api';
+import fetchApi from "../../api";
+import Slide from "@mui/material/Slide";
 
-import './Join.css';
+import "./Join.css";
+
+const StyledTextField = styled(TextField)({
+  "& label": {
+    color: "white",
+  },
+  "&:hover label": {
+    fontWeight: 700,
+  },
+  "& label.Mui-focused": {
+    color: "white",
+  },
+});
 
 export default function SignIn() {
-    const [fullname, setFullname] = useState('');
-    const [username, setUsername] = useState('');
-    const [error, setError] = useState(null);
-    const history = useHistory()
-    const handleSubmit = async () => {
-        let res = await fetchApi('users/login', 'post', { full_name: fullname, username })
-        if(res && res.error) setError(res.error)
-        if(res && res.detail && res.detail._id) {
-            history.push(`/dashboard?user_id=${res.detail._id}`)
-        }
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState(null);
+  const [showForm, setShowForm] = useState(true);
+  const history = useHistory();
+  const handleSubmit = async () => {
+    let res = await fetchApi("users/login", "post", {
+      full_name: fullname,
+      username,
+    });
+    if (res && res.error) setError(res.error);
+    if (res && res.detail && res.detail._id) {
+      history.push(`/dashboard?user_id=${res.detail._id}`);
     }
-    return (
-        <div className="joinOuterContainer">
-            <div className="joinInnerContainer">
-                {
-                    error &&
-                    <Alert severity="error">
-                        <AlertTitle sx={{textAlign : 'left'}}>Error</AlertTitle>
-                        {error}
-                    </Alert>
-                }
-                <h1 className="heading">Join</h1>
-                <input placeholder="Full Name" className="joinInput" type="text" onChange={(event) => setFullname(event.target.value)} />
-                <input placeholder="Username" className="joinInput mt-20" type="text" onChange={(event) => setUsername(event.target.value)} />
-                <button className={'button mt-20'} onClick={handleSubmit}>Sign In</button>
-            </div>
-        </div>
-    );
+  };
+
+  return (
+    <Box className="joinOuterContainer">
+      <Slide direction="down" in={showForm} mountOnEnter unmountOnExit>
+        <Paper
+          sx={{
+            bgcolor: "#3E4042",
+            px: "80px",
+            py: "30px",
+            pb: "40px",
+            width: "25vw",
+            borderRadius: "5px",
+            boxShadow: 1,
+            position: "absolute",
+          }}
+        >
+          {error && (
+            <Alert severity="error">
+              <AlertTitle sx={{ textAlign: "left" }}>Error</AlertTitle>
+              {error}
+            </Alert>
+          )}
+          <h1 className="heading">Join</h1>
+          <StyledTextField
+            id="standard-basic"
+            label="Full Name"
+            variant="standard"
+            className="joinInput"
+            onChange={(event) => setFullname(event.target.value)}
+            sx={{
+              input: {
+                color: "#fff",
+              },
+            }}
+          />
+          <StyledTextField
+            id="standard-basic"
+            label="Username"
+            variant="standard"
+            className="joinInput"
+            onChange={(event) => setUsername(event.target.value)}
+            sx={{
+              input: {
+                color: "#fff",
+              },
+              mt: "20px",
+            }}
+          />
+          <Button
+            sx={{
+              bgcolor: "primary.main",
+              mt: "20px",
+              width: "100%",
+              height: "50px",
+              color: "primary.contrastText",
+              "&:hover": {
+                bgcolor: "rgba(64, 78, 237, 0.5)",
+              },
+            }}
+            onClick={handleSubmit}
+          >
+            Sign In
+          </Button>
+          <Box
+            sx={{ textDecoration: "underline" }}
+            onClick={() => setShowForm(false)}
+          >
+            Go to sign up
+          </Box>
+        </Paper>
+      </Slide>
+      <Slide
+        direction="up"
+        in={!showForm}
+        mountOnEnter
+        unmountOnExit
+      >
+        <Paper
+          sx={{
+            bgcolor: "#3E4042",
+            px: "80px",
+            py: "30px",
+            pb: "40px",
+            width: "25vw",
+            borderRadius: "5px",
+            boxShadow: 1,
+            position: "absolute",
+          }}
+        >
+          {error && (
+            <Alert severity="error">
+              <AlertTitle sx={{ textAlign: "left" }}>Error</AlertTitle>
+              {error}
+            </Alert>
+          )}
+          <h1 className="heading">Join</h1>
+          <Button
+            sx={{
+              bgcolor: "primary.main",
+              mt: "20px",
+              width: "100%",
+              height: "50px",
+              color: "primary.contrastText",
+              "&:hover": {
+                bgcolor: "rgba(64, 78, 237, 0.5)",
+              },
+            }}
+            onClick={handleSubmit}
+          >
+            Sign In
+          </Button>
+          <Box
+            sx={{ textDecoration: "underline" }}
+            onClick={() => setShowForm(true)}
+          >
+            Go to login
+          </Box>
+        </Paper>
+      </Slide>
+    </Box>
+  );
 }
