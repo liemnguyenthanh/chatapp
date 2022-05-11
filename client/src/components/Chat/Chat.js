@@ -16,8 +16,7 @@ const ENDPOINT = 'http://localhost:8080';
 let socket;
 
 const Chat = ({ location }) => {
-    const [name, setName] = useState('');
-    const [users, setUsers] = useState('');
+    const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
@@ -35,7 +34,7 @@ const Chat = ({ location }) => {
 
     useEffect(() => {
         if (room_id) {
-            socket.emit('JOIN_ROOM',{room_id})
+            socket.emit('JOIN_ROOM',{ user_id, room_id})
             getListMessages(room_id)
         }
     }, [room_id]);
@@ -47,11 +46,13 @@ const Chat = ({ location }) => {
             setMessages(pre => [...pre, message]);
         });
 
-        socket.on("ROOM_DATA", ({ users }) => {
+        socket.on("USERS_ROOM", ({ users }) => {
+            console.log('users room');
             setUsers(users);
         });
     }, []);
 
+    console.log({users});
     useEffect(() => {
         if (messages) {
             let new_list = convertMessagesList(messages)

@@ -13,7 +13,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import ThemeToggle from './ThemeToggle/ThemeToggle';
 import { Link, useLocation } from 'react-router-dom';
-import { queryString } from 'query-string';
 
 
 const drawerWidth = 240;
@@ -94,7 +93,6 @@ const Sidebar = ({user_id}) => {
     const handleDrawer = () => {
         setOpen(prev => !prev);
     };
-    const location = useLocation()
 
     return (
         <>
