@@ -11,8 +11,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import ThemeToggle from './ThemeToggle/ThemeToggle';
 import { Link } from 'react-router-dom';
+import ThemeToggle from './ThemeToggle/ThemeToggle';
 
 
 const drawerWidth = 240;
@@ -88,8 +88,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-const Sidebar = ({user_id}) => {
-    const [open, setOpen] = React.useState(true);
+const Sidebar = ({user_id, open, setOpen}) => {
     const handleDrawer = () => {
         setOpen(prev => !prev);
     };
