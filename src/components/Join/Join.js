@@ -8,7 +8,7 @@ import {
     TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import fetchApi from "../../api";
 import Slide from "@mui/material/Slide";
 
@@ -27,7 +27,6 @@ const StyledTextField = styled(TextField)({
 });
 
 export default function SignIn() {
-    const [fullname, setFullname] = useState("");
     const [username, setUsername] = useState("");
     const [error, setError] = useState(null);
     const [showForm, setShowForm] = useState(true);

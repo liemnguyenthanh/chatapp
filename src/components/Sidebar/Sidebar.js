@@ -12,7 +12,7 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import ThemeToggle from './ThemeToggle/ThemeToggle';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const drawerWidth = 240;

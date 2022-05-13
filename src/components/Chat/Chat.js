@@ -1,55 +1,53 @@
-import React, { useState, useEffect } from "react";
-import queryString from 'query-string';
-import io from "socket.io-client";
-import Messages from '../Messages/Messages';
-import Input from '../Input/Input';
-import './Chat.css';
-import { convertMessagesList } from "../../utils";
-import Sidebar from "../Sidebar/Sidebar";
-import { useParams } from 'react-router-dom'
 import { Box } from "@mui/material";
-import fetchApi from "../../api";
+import queryString from 'query-string';
+import React, { useEffect, useState } from "react";
+import io from "socket.io-client";
+import fetchApi, { api } from "../../api";
+import { convertMessagesList } from "../../utils";
+import Input from '../Input/Input';
+import Messages from '../Messages/Messages';
+import Sidebar from "../Sidebar/Sidebar";
+import './Chat.css';
 
 
-
-const ENDPOINT = 'https://chatapptma.herokuapp.com';
 let socket;
 
 const Chat = ({ location }) => {
-    const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
     const { user_id ,room_id} = queryString.parse(location.search);
-    useEffect(() => {
-        socket = io(ENDPOINT);
-        // socket.emit('JOIN_CHAT', { user_id }, (error) => {
-        //     if (error) {
-        //         alert(error);
-        //     }
-        // });
 
-    }, [ENDPOINT]);
+    const [state, setState] = useState({
+        room_list : {},
 
+    });
 
     useEffect(() => {
-        if (room_id && user_id) {
+        socket = io(api);
+    }, [api]);
+
+    
+    useEffect(() => {
+        if (user_id) {
             socket.emit('JOIN_ROOM',{ user_id, room_id})
+        }
+    }, [user_id]);
+
+    useEffect(() => {
+        if (room_id ) {
             getListMessages(room_id)
         }
-    }, [room_id ,user_id]);
-
+    }, [room_id]);
 
     useEffect(() => {
-
         socket.on('NEW_MESSAGE', message => {
             setMessages(pre => [...pre, message]);
         });
-
-        socket.on("USERS_ROOM", ({ users }) => {
-            console.log('users room');
-            setUsers(users);
-        });
+        // socket.on("USERS_ROOM", ({ users }) => {
+        //     console.log('users room');
+        //     setUsers(users);
+        // });
     }, []);
 
     useEffect(() => {
