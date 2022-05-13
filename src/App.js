@@ -10,7 +10,7 @@ import './styles/global.css';
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 const App = () => {
-  const [mode, setMode] = useState('light');
+  const [mode, setMode] = useState('dark');
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {

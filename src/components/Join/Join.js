@@ -3,6 +3,9 @@ import {
   AlertTitle,
   Box,
   Button,
+  CardMedia,
+  Divider,
+  Grid,
   Paper,
   styled,
   TextField,
@@ -12,6 +15,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import fetchApi from "../../api";
 import "./Join.css";
+import logo from "../../icons/corn.png";
 
 const StyledTextField = styled(TextField)({
   "& label": {
@@ -60,7 +64,23 @@ export default function SignIn() {
               {error}
             </Alert>
           )}
-          <h1 className="heading">Join</h1>
+          <Grid
+            container
+            spacing={1}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <h1 className="heading mb-0">Join</h1>
+            <Box width="40px" height="40px">
+              <CardMedia
+                component="img"
+                alt="logo"
+                height="40"
+                src={logo}
+              />
+            </Box>
+          </Grid>
+          <Divider sx={{borderColor: 'white', borderWidth: '2px'}}/>
           <StyledTextField
             id="standard-basic"
             label="Username"
@@ -71,7 +91,7 @@ export default function SignIn() {
               input: {
                 color: "#fff",
               },
-              mt: "20px",
+              mt: "10px",
             }}
           />
           <Button
@@ -116,7 +136,23 @@ export default function SignIn() {
               {error}
             </Alert>
           )}
-          <h1 className="heading">Join</h1>
+                    <Grid
+            container
+            spacing={1}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <h1 className="heading mb-0">Join</h1>
+            <Box width="40px" height="40px">
+              <CardMedia
+                component="img"
+                alt="logo"
+                height="40"
+                src={logo}
+              />
+            </Box>
+          </Grid>
+          <Divider sx={{borderColor: 'white', borderWidth: '2px'}}/>
           <Button
             sx={{
               bgcolor: "primary.main",

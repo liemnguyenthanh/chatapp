@@ -1,12 +1,14 @@
-import { Box } from "@mui/material";
+import { AppBar, Box } from "@mui/material";
 import queryString from 'query-string';
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import fetchApi from "../../api";
 import { convertMessagesList } from "../../utils";
 import Input from '../Input/Input';
+import ListUserBar from "../ListUserBar";
 import Messages from '../Messages/Messages';
 import Sidebar from "../Sidebar/Sidebar";
+import TopBar from "../TopBar";
 import './Chat.css';
 
 
@@ -20,6 +22,8 @@ const Chat = ({ location }) => {
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
     const { user_id ,room_id} = queryString.parse(location.search);
+    const [open, setOpen] = React.useState(true);
+
     useEffect(() => {
         socket = io(ENDPOINT);
         // socket.emit('JOIN_CHAT', { user_id }, (error) => {
@@ -77,11 +81,13 @@ const Chat = ({ location }) => {
     }
     return (
         <Box className="outerContainer" sx={{bgcolor: 'background.default'}}>
-            <Sidebar user_id={user_id} />
-            <Box sx={{bgcolor: 'background.paper', boxShadow: 1, mx: 3}} className="container-chat">
+            <TopBar open={open} setOpen={setOpen}/>
+            <Sidebar user_id={user_id} open={open} setOpen={setOpen}/>
+            <Box sx={{bgcolor: 'background.paper', boxShadow: 1, mx: 3, mt: '64px'}} className="container-chat">
                 <Messages messagesGroup={messagesGroup} mySelfId={user_id} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
             </Box>
+            <ListUserBar />
         </Box>
     );
 }

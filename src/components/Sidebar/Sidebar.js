@@ -88,8 +88,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-const Sidebar = ({user_id}) => {
-    const [open, setOpen] = React.useState(true);
+const Sidebar = ({user_id, open, setOpen}) => {
     const handleDrawer = () => {
         setOpen(prev => !prev);
     };
