@@ -13,11 +13,9 @@ import './Chat.css';
 
 
 
-const ENDPOINT = 'https://chatapptma.herokuapp.com';
 let socket;
 
 const Chat = ({ location }) => {
-    const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [messagesGroup, setMessagesGroup] = useState([]);
@@ -31,28 +29,37 @@ const Chat = ({ location }) => {
         //         alert(error);
         //     }
         // });
+    )
+    const [state, setState] = useState({
+        room_list : {},
 
-    }, [ENDPOINT]);
-
+    });
 
     useEffect(() => {
-        if (room_id && user_id) {
+        socket = io(api);
+    }, [api]);
+
+    
+    useEffect(() => {
+        if (user_id) {
             socket.emit('JOIN_ROOM',{ user_id, room_id})
+        }
+    }, [user_id]);
+
+    useEffect(() => {
+        if (room_id ) {
             getListMessages(room_id)
         }
-    }, [room_id ,user_id]);
-
+    }, [room_id]);
 
     useEffect(() => {
-
         socket.on('NEW_MESSAGE', message => {
             setMessages(pre => [...pre, message]);
         });
-
-        socket.on("USERS_ROOM", ({ users }) => {
-            console.log('users room');
-            setUsers(users);
-        });
+        // socket.on("USERS_ROOM", ({ users }) => {
+        //     console.log('users room');
+        //     setUsers(users);
+        // });
     }, []);
 
     useEffect(() => {
@@ -91,5 +98,4 @@ const Chat = ({ location }) => {
         </Box>
     );
 }
-
 export default Chat;

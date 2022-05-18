@@ -1,5 +1,8 @@
-const ENDPOINT = 'https://chatapptma.herokuapp.com/';
-
+const ENDPOINT = {
+    local : 'http://localhost:8080/',
+    heroku : 'https://chatapptma.herokuapp.com/',
+};
+export const api = ENDPOINT.local
 export default async function fetchApi(path,method,body) {
     let result 
     let options  = {
@@ -10,7 +13,7 @@ export default async function fetchApi(path,method,body) {
         options.method = 'POST'
         options.body = JSON.stringify(body)
     }
-    await fetch(ENDPOINT + path, options)
+    await fetch(api + path, options)
         .then(res => res.json())
         .then(
             (q) => {

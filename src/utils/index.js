@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid"
 
-export const convertMessagesList = (list) => {
+export function convertMessagesList(list){
     let new_list = [],
         user_group = { key : null ,info: null, messages: [] }
     list.map((item, index) => {
@@ -11,6 +11,7 @@ export const convertMessagesList = (list) => {
             user_group = {  key : nanoid() , info: item.sender, messages: [item] }
         }
         if (index === list.length - 1 && user_group.info) new_list.push(user_group)
+        
     })
     return new_list
 }
