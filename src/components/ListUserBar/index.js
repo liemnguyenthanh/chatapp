@@ -1,60 +1,96 @@
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import * as React from 'react';
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Toolbar from "@mui/material/Toolbar";
+import multiavatar from "@multiavatar/multiavatar";
+import React, { useMemo, useContext, useState, useEffect } from "react";
+import { contrast, generateName, hexToRgb, rgbToHex } from "../../utils";
+import UserItem from "./UserItem";
+import { LoremIpsum } from "lorem-ipsum";
+import { ColorModeContext } from "../../App";
 
 const drawerWidth = 240;
 
 const ListUserBar = () => {
-    return (
-        <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="permanent"
-        anchor="right"
-      >
-        <Toolbar />
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-    )
-}
+  const lorem = new LoremIpsum();
+  const listNameLength = 10;
+  const { mode } = useContext(ColorModeContext);
+  const [listUser, setListUser] = useState([]);
 
-export default ListUserBar
+  function generateRandomColor() {
+    let color = hexToRgb(Math.floor(Math.random() * 16777215).toString(16));
+    if (color != null) {
+      return color;
+    } else generateRandomColor();
+  }
+
+  function generateUser() {
+    const standartContrast = 8;
+    let randomColor = generateRandomColor();
+    while (
+      contrast(mode === "dark" ? [44, 47, 51] : [255, 255, 255], [
+        randomColor?.r,
+        randomColor?.g,
+        randomColor?.b,
+      ]) < standartContrast
+    ) {
+      randomColor = hexToRgb(Math.floor(Math.random() * 16777215).toString(16));
+    }
+    if (randomColor) {
+      const item = {
+        name: generateName(),
+        title: lorem.generateWords(4),
+        color: rgbToHex(randomColor?.r, randomColor?.g, randomColor?.b),
+      };
+      if (item != null) return item;
+      else generateUser();
+    }
+  }
+
+  useEffect(() => {
+    let list = [];
+    while (list.length < 10) {
+      let item = generateUser();
+      if (item) list.push(item);
+    }
+    setListUser(list);
+  }, []);
+  // useEffect(() => {
+  //   let color;
+  //   while (list.length < 10) {
+  //     let item = generateUser();
+  //     if (item) list.push(item);
+  //   }
+  // }, []);
+  
+  return (
+    <Drawer
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        "& .MuiDrawer-paper": {
+          width: drawerWidth,
+          boxSizing: "border-box",
+        },
+      }}
+      variant="permanent"
+      anchor="right"
+    >
+      <Toolbar />
+      <Divider />
+      <List sx={{ px: 1 }}>
+        {listUser.map((item, index) => (
+          <UserItem
+            key={index}
+            name={item.name}
+            title={item.title}
+            avatar={multiavatar(item.name)}
+            color={item.color}
+          />
+        ))}
+      </List>
+    </Drawer>
+  );
+};
+
+export default ListUserBar;

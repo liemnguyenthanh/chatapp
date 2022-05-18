@@ -32,7 +32,6 @@ const TopBar = ({ open }) => {
   const { user_id, room_id } = queryString.parse(location.search);
   const theme = useTheme();
 
-  console.log("oppen", open);
   return (
     <AppBar
       position="fixed"

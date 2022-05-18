@@ -6,7 +6,7 @@ import { ColorModeContext } from '../../../App';
 
 const ThemeToggle = () => {
     const theme = useTheme();
-    const colorMode = useContext(ColorModeContext);
+    const {colorMode} = useContext(ColorModeContext);
     
     return (
         <Box
