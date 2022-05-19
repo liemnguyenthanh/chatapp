@@ -2,7 +2,7 @@ import { AppBar, Box } from "@mui/material";
 import queryString from 'query-string';
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import fetchApi from "../../api";
+import fetchApi, { api } from "../../api";
 import { convertMessagesList } from "../../utils";
 import Input from '../Input/Input';
 import ListUserBar from "../ListUserBar";
@@ -21,30 +21,29 @@ const Chat = ({ location }) => {
     const [messagesGroup, setMessagesGroup] = useState([]);
     const { user_id ,room_id} = queryString.parse(location.search);
     const [open, setOpen] = React.useState(true);
+    const [userList, setUserList] = useState([])
 
-    useEffect(() => {
-        socket = io(ENDPOINT);
-        // socket.emit('JOIN_CHAT', { user_id }, (error) => {
-        //     if (error) {
-        //         alert(error);
-        //     }
-        // });
-    )
+        // useEffect(() => {
+        //     socket = io(ENDPOINT);
+        //     socket.emit('JOIN_CHAT', { user_id }, (error) => {
+        //         if (error) {
+        //             alert(error);
+        //         }
+        //     });
+        // })
     const [state, setState] = useState({
         room_list : {},
-
     });
 
     useEffect(() => {
         socket = io(api);
     }, [api]);
-
     
     useEffect(() => {
         if (user_id) {
-            socket.emit('JOIN_ROOM',{ user_id, room_id})
+            socket.emit('JOIN_ROOM',{ user_id, room_id })
         }
-    }, [user_id]);
+    }, [user_id,room_id]);
 
     useEffect(() => {
         if (room_id ) {
@@ -56,10 +55,11 @@ const Chat = ({ location }) => {
         socket.on('NEW_MESSAGE', message => {
             setMessages(pre => [...pre, message]);
         });
-        // socket.on("USERS_ROOM", ({ users }) => {
-        //     console.log('users room');
-        //     setUsers(users);
-        // });
+        socket.on("USERS_ROOM", ({ users, clients }) => {
+            console.log('users',users, clients);
+            setUserList(users)
+        });
+
     }, []);
 
     useEffect(() => {
@@ -69,9 +69,8 @@ const Chat = ({ location }) => {
         }
     }, [messages])
 
-    const sendMessage = (event) => {
+    const sendMessage = async (event) => {
         event.preventDefault();
-
         if (message) {
             let new_message = {
                 sender: user_id,
@@ -94,7 +93,7 @@ const Chat = ({ location }) => {
                 <Messages messagesGroup={messagesGroup} mySelfId={user_id} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
             </Box>
-            <ListUserBar />
+            <ListUserBar userList={userList}/>
         </Box>
     );
 }

@@ -69,29 +69,7 @@ const App = () => {
   });
 
   const CustomTheme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  // const [colorListUser, setColorListUser] = useState([]);
-  // const standardContrastRatio = 4.5;
 
-  // const findTextColorContrast = (mode) => {
-  //   for (let colour = 0; colour < 0x1000000; colour += 1000) {
-  //     let hexCode = "#" + colour.toString(16).padStart(6, "0");
-  //     let colorHexToRgb = hexToRgb(hexCode);
-  //     if (
-  //       contrast(
-  //         mode === "dark" ? [44, 47, 51] : [255, 255, 255],
-  //         [colorHexToRgb.r, colorHexToRgb.g, colorHexToRgb.b]
-  //       ) > standardContrastRatio
-  //     )
-  //       return colorHexToRgb;
-  //   }
-  //   return;
-  // };
-  // const findTextColorContrastMemo = useMemo(
-  //   () => findTextColorContrast(mode),
-  //   [mode]
-  // );
-  // // textColorContrast()
-  // console.log('---',findTextColorContrastMemo)
   return (
     <ColorModeContext.Provider value={{colorMode,mode}}>
       <ThemeProvider theme={CustomTheme}>

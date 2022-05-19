@@ -11,21 +11,18 @@ import { ColorModeContext } from "../../App";
 
 const drawerWidth = 240;
 
-const ListUserBar = () => {
-  const lorem = new LoremIpsum();
-  const listNameLength = 10;
+const ListUserBar = (props) => {
+  const { userList } = props;
   const { mode } = useContext(ColorModeContext);
-  const [listUser, setListUser] = useState([]);
 
-  function generateRandomColor() {
-    let color = hexToRgb(Math.floor(Math.random() * 16777215).toString(16));
-    if (color != null) {
-      return color;
-    } else generateRandomColor();
-  }
-
-  function generateUser() {
+  function generateColor() {
     const standartContrast = 8;
+    function generateRandomColor() {
+      let color = hexToRgb(Math.floor(Math.random() * 16777215).toString(16));
+      if (color != null) {
+        return color;
+      } else generateRandomColor();
+    }
     let randomColor = generateRandomColor();
     while (
       contrast(mode === "dark" ? [44, 47, 51] : [255, 255, 255], [
@@ -36,32 +33,10 @@ const ListUserBar = () => {
     ) {
       randomColor = hexToRgb(Math.floor(Math.random() * 16777215).toString(16));
     }
-    if (randomColor) {
-      const item = {
-        name: generateName(),
-        title: lorem.generateWords(4),
-        color: rgbToHex(randomColor?.r, randomColor?.g, randomColor?.b),
-      };
-      if (item != null) return item;
-      else generateUser();
-    }
+    if (randomColor) 
+      return rgbToHex(randomColor.r, randomColor.g, randomColor.b);
+    else generateColor();
   }
-
-  useEffect(() => {
-    let list = [];
-    while (list.length < 10) {
-      let item = generateUser();
-      if (item) list.push(item);
-    }
-    setListUser(list);
-  }, []);
-  // useEffect(() => {
-  //   let color;
-  //   while (list.length < 10) {
-  //     let item = generateUser();
-  //     if (item) list.push(item);
-  //   }
-  // }, []);
   
   return (
     <Drawer
@@ -79,13 +54,13 @@ const ListUserBar = () => {
       <Toolbar />
       <Divider />
       <List sx={{ px: 1 }}>
-        {listUser.map((item, index) => (
+        {userList.map((item, index) => (
           <UserItem
             key={index}
-            name={item.name}
-            title={item.title}
-            avatar={multiavatar(item.name)}
-            color={item.color}
+            name={item.full_name}
+            title={item.username}
+            avatar={multiavatar(item.username)}
+            color={`#${generateColor()}`}
           />
         ))}
       </List>
