@@ -22,28 +22,24 @@ const Chat = ({ location }) => {
     const { user_id ,room_id} = queryString.parse(location.search);
     const [open, setOpen] = React.useState(true);
     const [userList, setUserList] = useState([])
-
-        // useEffect(() => {
-        //     socket = io(ENDPOINT);
-        //     socket.emit('JOIN_CHAT', { user_id }, (error) => {
-        //         if (error) {
-        //             alert(error);
-        //         }
-        //     });
-        // })
-    const [state, setState] = useState({
-        room_list : {},
-    });
-
+    const [store, setStore] = useState({
+        chatList : [] ,
+        info  : null,
+        messages_room  : {} ,
+        isTyping : {
+            user_id : null , 
+            type : false,
+        },
+    })
     useEffect(() => {
         socket = io(api);
     }, [api]);
     
     useEffect(() => {
         if (user_id) {
-            socket.emit('JOIN_ROOM',{ user_id, room_id })
+           socket.emit('JOIN_CHAT',{ user_id })
         }
-    }, [user_id,room_id]);
+    }, [user_id]);
 
     useEffect(() => {
         if (room_id ) {
@@ -53,18 +49,86 @@ const Chat = ({ location }) => {
 
     useEffect(() => {
         socket.on('NEW_MESSAGE', message => {
+            console.log({message});
             setMessages(pre => [...pre, message]);
+            if(message.sender !== user_id){
+                let status = 3
+                if(room_id === message.room_id)status =4
+                let data = {
+                    _id : message._id ,
+                    room_id : message.room_id,
+                    sender : message.sender,
+                    status
+                }
+                socket.emit('UPDATE_STATUS_MESSAGE',{data})
+            }
         });
-        socket.on("USERS_ROOM", ({ users, clients }) => {
-            console.log('users',users, clients);
-            setUserList(users)
+
+        socket.on("USERS_ROOM", ({ users }) => {
+            let info = users.find(a => a.user_id == user_id)
+            if(info) setStore({...store , info : info })
+            setUserList(users.filter(a => a.user_id !== user_id))
+        });
+
+        socket.on("TYPING_SERVER", ({  userId, roomId , is_typing }) => {
+            if(roomId === user_id){
+                setStore(pre => {
+                    return {
+                        ...pre , 
+                        isTyping : {
+                            user_id : userId,
+                            type : is_typing
+                        }
+                    }
+                })
+            }
+            
+        });
+
+        socket.on("UPDATE_STATUS_MESSAGE_SEVER", ({ data }) => {
+            //const {_id, sender , room_id ,status} = data
+            // setMessages(pre =>{
+
+            // })
         });
 
     }, []);
 
+    console.log({messagesGroup});
     useEffect(() => {
-        if (messages) {
-            let new_list = convertMessagesList(messages)
+        if(store.isTyping.user_id && store.isTyping.type ){
+            let new_users_sidebar =  
+                userList.map( d =>{
+                        let isTyping = false
+                        if(d.user_id === store.isTyping.user_id) isTyping = true
+                        return {
+                            ...d,
+                            isTyping
+                        }
+                    })
+            setUserList(new_users_sidebar)        
+        }else{
+            let new_users_sidebar =  
+                userList.map( d =>{
+                        let isTyping = false
+                        return {
+                            ...d,
+                            isTyping
+                        }
+                    })
+            setUserList(new_users_sidebar)  
+        }
+    }, [store.isTyping])
+
+    useEffect(() => {
+        if(message.length == 0) socket.emit('IS_TYPING_CLIENT',{ user_id , room_id , is_typing : false});
+        if(message.length > 0 && !store.isTyping.type ) socket.emit('IS_TYPING_CLIENT',{ user_id ,room_id ,  is_typing : true});
+    }, [message]);
+
+
+    useEffect(() => {
+        if (messages && userList ) {
+            let new_list = convertMessagesList(messages,userList)
             setMessagesGroup(new_list)
         }
     }, [messages])
@@ -75,9 +139,11 @@ const Chat = ({ location }) => {
             let new_message = {
                 sender: user_id,
                 room_id: room_id,
-                message: message
+                message: message , 
+                isGroup : false
             }
-            socket.emit('SEND_MESSAGE', new_message, () => setMessage(''));
+            socket.emit('SEND_MESSAGE', new_message);
+            setMessage('')
         }
     }
 
@@ -87,13 +153,13 @@ const Chat = ({ location }) => {
     }
     return (
         <Box className="outerContainer" sx={{bgcolor: 'background.default'}}>
-            <TopBar open={open} setOpen={setOpen}/>
-            <Sidebar user_id={user_id} open={open} setOpen={setOpen}/>
+            <TopBar open={open} setOpen={setOpen} store={store}/>
+            <Sidebar chatList = {store.chatList} user_id={user_id} open={open} setOpen={setOpen}/>
             <Box sx={{bgcolor: 'background.paper', boxShadow: 1, mx: 3, mt: '64px'}} className="container-chat">
                 <Messages messagesGroup={messagesGroup} mySelfId={user_id} />
-                <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
+                <Input message={message} setMessage={setMessage} sendMessage={sendMessage}/>
             </Box>
-            <ListUserBar userList={userList}/>
+            <ListUserBar userList={userList}  setStore={setStore} store={store}/>
         </Box>
     );
 }

@@ -1,16 +1,20 @@
-import { Box } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useParams } from "react-router";
 import ScrollToBottom from "react-scroll-to-bottom";
 import Message from "./Message/Message";
 import "./Messages.css";
+import multiavatar from "@multiavatar/multiavatar";
 
-const RenderAvatar = ({ url }) => {
-  let text = url.split("");
+
+const RenderAvatar = ({ user_id }) => {
+  
+  const buff = new Buffer(multiavatar(user_id));
+  const base64data = buff.toString("base64");
   return (
-    <div className="border d-flex align-items-center justify-content-center rounded-circle w-h-40 bg-danger bg-gradient text-white text-uppercase">
-      <span className="">{text[0]}</span>
-    </div>
+    <Avatar
+        src={`data:image/svg+xml;base64,${base64data}`}
+    />
   );
 };
 const Messages = ({ messagesGroup, mySelfId }) => {
@@ -40,7 +44,7 @@ const Messages = ({ messagesGroup, mySelfId }) => {
                 }}
                 key={item.key}
                 >
-                {!isSentByCurrentUser && <RenderAvatar url={item.info} />}
+                {!isSentByCurrentUser && <RenderAvatar user_id={item.info} />}
                 <Box
                     sx={{
                     display: "flex",
@@ -53,7 +57,7 @@ const Messages = ({ messagesGroup, mySelfId }) => {
                     {item.messages.length &&
                     item.messages.map((mes) => (
                         <Box
-                        key={mes.message_id}
+                        key={mes._id}
                         className={`d-flex ${
                             isSentByCurrentUser ? "justify-content-end" : ""
                         }`}

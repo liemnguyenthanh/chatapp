@@ -16,24 +16,7 @@ import ThemeToggle from './ThemeToggle/ThemeToggle';
 
 
 const drawerWidth = 240;
-const listRoom = [
-    {
-        id: 1,
-        rName: 'Room 1',
-    },
-    {
-        id: 2,
-        rName: 'Room 2',
-    },
-    {
-        id: 3,
-        rName: 'Room 3',
-    },
-    {
-        id: 4,
-        rName: 'Room 4',
-    }
-]
+
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -88,7 +71,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-const Sidebar = ({user_id, open, setOpen}) => {
+const Sidebar = ({user_id, open, setOpen , chatList}) => {
     const handleDrawer = () => {
         setOpen(prev => !prev);
     };
@@ -107,8 +90,8 @@ const Sidebar = ({user_id, open, setOpen}) => {
                 <Divider sx={{mt: '64px'}}/>
                 <Box sx={{height: '100%', ...(open ? {overflowY: 'auto'} : {overflow: 'hidden'}) }}>
                     <List>
-                        {listRoom.map((text, index) => (
-                            <Link to={`/dashboard?user_id=${user_id}&room_id=${text.id}`} key={text}>
+                        {chatList.length > 0  && chatList.map((room) => (
+                            <Link to={`/dashboard?user_id=${user_id}&room_id=${room.room_id}`} key={room.room_id}>
                                 <LinkMui underline="none" color={'black'}>
                                     <ListItemButton
                                         sx={{
@@ -126,7 +109,7 @@ const Sidebar = ({user_id, open, setOpen}) => {
                                         >
                                             <TagIcon />
                                         </ListItemIcon>
-                                        <ListItemText primary={text.rName} sx={{ opacity: open ? 1 : 0, color: 'text.primary', }} />
+                                        <ListItemText primary={room.room_name} sx={{ opacity: open ? 1 : 0, color: 'text.primary', }} />
                                     </ListItemButton>
                                 </LinkMui>
                             </Link>

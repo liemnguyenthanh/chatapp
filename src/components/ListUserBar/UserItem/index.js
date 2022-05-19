@@ -3,19 +3,20 @@ import React from "react";
 import {generateName} from '../../../utils'
 import { StyledBadge } from "./style";
 
-const UserItem = ({ name, title, avatar, color }) => {
+const UserItem = ({ name, title, avatar, color ,onClick}) => {
   const buff = new Buffer(avatar);
   const base64data = buff.toString("base64");
 
   return (
     <ListItem
       disablePadding
+      onClick={onClick}
       sx={{
         marginBottom: "5px",
         borderRadius: "5px",
         paddingLeft: '5px',
         paddingRight: '5px',
-        
+        cursor:'pointer',
         "&:hover": {
           boxShadow: "inset 0 0 100px 100px rgba(255, 255, 255, 0.1)",
         },
