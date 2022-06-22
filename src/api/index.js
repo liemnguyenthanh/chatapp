@@ -2,7 +2,7 @@ const ENDPOINT = {
     local : 'http://localhost:8080/',
     heroku : 'https://chatapptma.herokuapp.com/',
 };
-export const api = ENDPOINT.local
+export const api = ENDPOINT.heroku
 export default async function fetchApi(path,method,body) {
     let result 
     let options  = {
