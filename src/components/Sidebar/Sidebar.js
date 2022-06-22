@@ -90,7 +90,7 @@ const Sidebar = ({user_id, open, setOpen , chatList}) => {
                 <Divider sx={{mt: '64px'}}/>
                 <Box sx={{height: '100%', ...(open ? {overflowY: 'auto'} : {overflow: 'hidden'}) }}>
                     <List>
-                        {chatList.length > 0  && chatList.map((room) => (
+                        {/* {chatList.length > 0  && chatList.map((room) => (
                             <Link to={`/dashboard?user_id=${user_id}&room_id=${room.room_id}`} key={room.room_id}>
                                 <LinkMui underline="none" color={'black'}>
                                     <ListItemButton
@@ -113,7 +113,7 @@ const Sidebar = ({user_id, open, setOpen , chatList}) => {
                                     </ListItemButton>
                                 </LinkMui>
                             </Link>
-                        ))}
+                        ))} */}
                     </List>
                 </Box>
                 <ThemeToggle />

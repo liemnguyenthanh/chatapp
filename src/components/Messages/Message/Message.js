@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 import './Message.css';
+import { STATUS_MESSAGE } from '../../../constant';
 
 
 const Message = ({ message: { message, user , status} ,isSentByCurrentUser}) => {
@@ -23,10 +24,10 @@ const Message = ({ message: { message, user , status} ,isSentByCurrentUser}) => 
                     <Box component='span'  fontSize={12}>
                         {
                             status &&
-                            status === 1 ? 'đang gửi' 
-                                : status === 2 ? 'đã gửi' 
-                                : status === 3 ? 'đã nhận' 
-                                : status === 4 ? 'đã xem' 
+                            status === STATUS_MESSAGE.sending ? 'đang gửi' 
+                                : status === STATUS_MESSAGE.sent ? 'đã gửi' 
+                                : status === STATUS_MESSAGE.receive ? 'đã nhận' 
+                                : status === STATUS_MESSAGE.seen ? 'đã xem' 
                                 : 'lỗi'
                         }
                     </Box>

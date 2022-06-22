@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid"
 
-export const createMessage = (message , userList) => {
+export const createMessage = ( message ) => {
     const { message : mes, room_id, sender, _id , clientMid } = message
     // 1  -> đang gửi 
     // 2  -> đã gửi -> New_message
@@ -15,12 +15,12 @@ export const createMessage = (message , userList) => {
         status 
     }
 }
-export function convertMessagesList(list , userList) {
+export function convertMessagesList(list ) {
     let new_list = [],
         user_group = { key: null, info: null, messages: [] }
         
     list.map((item, index) => {
-        let new_item = createMessage(item , userList)
+        let new_item = createMessage(item )
         if (user_group.info === new_item.sender) {
             user_group.messages.push(new_item)
         } else {
@@ -68,4 +68,11 @@ export function hexToRgb(hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
+}
+
+export const last = (arr) =>{
+    if(Array.isArray(arr)){
+        return arr[arr.length - 1]
+    }
+    return
 }

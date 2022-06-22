@@ -8,6 +8,7 @@ import { contrast, generateName, hexToRgb, rgbToHex } from "../../utils";
 import UserItem from "./UserItem";
 import { LoremIpsum } from "lorem-ipsum";
 import { ColorModeContext } from "../../App";
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 export function generateColor(mode) {
@@ -33,9 +34,9 @@ export function generateColor(mode) {
     else generateColor();
 }
 const ListUserBar = (props) => {
-    const { userList, store, setStore } = props;
+    const { userList,user_id, store, setStore } = props;
     const { mode } = useContext(ColorModeContext);
-
+    const history = useHistory()
     const createNewRoom = (room_id, room_name) => {
         return {
             room_id,
@@ -43,13 +44,7 @@ const ListUserBar = (props) => {
         }
     }
     const handleChangeRoom = (user) => {
-        let check_room = store.chatList.find(a => a.room_id === user.user_id)
-        if (!check_room) {
-            setStore({
-                ...store,
-                chatList: [...store.chatList, createNewRoom(user.user_id, user.full_name)]
-            })
-        }
+        history.push(`/dashboard?user_id=${user_id}&room_id=${user.user_id}`)
     }
 
     return (
